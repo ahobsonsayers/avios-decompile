@@ -1,0 +1,26 @@
+version: '3'
+
+vars:
+  PACKAGE: com.usablenet.ba.avios
+  APK_NAME: avios
+
+tasks:
+  download:
+    desc: Download apk
+    dir: apk
+    cmds:
+      - uv run gplaydl auth
+      - uv run gplaydl download {{.PACKAGE}}
+      - mv {{.PACKAGE}}-*.apk {{.APK_NAME}}.apk
+
+  decompile:
+    desc: Decompile apk
+    cmd: jadx -d decompiled apk/{{.APK_NAME}}.apk || true
+
+  extract:
+    desc: Extract AUTH0_CLIENT_ID
+    cmd: |
+      echo "AUTH0_CLIENT_ID:"
+      find decompiled/sources -name "BuildConfig.java" \
+        -exec grep 'AUTH0_CLIENT_ID' {} + | 
+        cut -d '"' -f 2
