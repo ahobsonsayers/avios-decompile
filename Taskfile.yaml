@@ -10,7 +10,7 @@ tasks:
     dir: apk
     cmds:
       - uv run gplaydl auth
-      - uv run gplaydl download {{.PACKAGE}}
+      - uv run gplaydl download {{.PACKAGE}} --no-splits --no-extras
       - mv {{.PACKAGE}}-*.apk {{.APK_NAME}}.apk
 
   decompile:
