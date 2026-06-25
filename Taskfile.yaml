@@ -15,7 +15,9 @@ tasks:
 
   decompile:
     desc: Decompile apk
-    cmd: jadx -d decompiled apk/{{.APK_NAME}}.apk || true
+    cmds:
+      - jadx -d decompiled apk/{{.APK_NAME}}.apk || true
+      - uv run hbc-disassembler decompiled/resources/assets/index.android.bundle decompiled/hermes.hasm || true
 
   extract:
     desc: Extract AUTH0_CLIENT_ID
